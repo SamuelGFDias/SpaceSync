@@ -1,10 +1,23 @@
 from django.contrib import admin
+from django import forms
 from .models import Membro, Filial, Sala, Reuniao
 
 
+class MembroForm(forms.ModelForm):
+    class Meta:
+        model = Membro
+        fields = '__all__'
+        widgets = {
+            'celular': forms.TextInput(attrs={'id': 'id_celular'}),
+        }
+
+    class Media:
+        js = ('reuniao/static/formatar_telefone.js',)
+
+
 class MembroAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nome', 'email', 'celular', 'tipo')
-    list_display_links = ('id', 'nome')
+    list_display = ('id', 'nome', 'cpf', 'email', 'celular', 'tipo')
+    list_display_links = ('id', 'nome', 'cpf')
     search_fields = ('id', 'nome', 'tipo')
     list_filter = ('tipo',)
     list_per_page = 10
